@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuscAKI</title>
+    <link rel="stylesheet" href="style_index.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo1.png" alt="Logo BuscAKI">
+           
+        </div>
+        <button class="menu-button">☰</button>
+    </header>
+
+    <div class="sidebar">
+        <button class="close-sidebar">X</button>
+        <a href="index.html">Início</a>
+        <a href="#">Sobre</a>
+        <a href="#">Contato</a>
+        <input type="text" placeholder="Buscar no Menu" class="sidebar-search">
+        <div class="sidebar-categories">
+            <h3>Categorias</h3>
+            <a href="empresas.html">Empresas</a>
+            <a href="#">Lanchonete</a>
+            <a href="#">Restaurante</a>
+            <a href="#">Combustível</a>
+            <a href="#">Vestuário</a>
+            <a href="#">PetShop</a>
+            <a href="#">Farmácia</a>
+            <a href="#">Dentista</a>
+            <a href="#">Supermercado</a>
+        </div>
+    </div>
+
+    <main class="app-home">
+        <div class="slogan">
+            NÃO SABE ONDE FICA? O TELEFONE? ONDE TEM? BUSQUE AGORA E NÃO FIQUE PERDIDO!
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Empresas, Lojas, PetShop, e muito mais">
+            <button>🔍</button>
+        </div>
+        <div class="categories-grid">
+            <h2>NAVEGUE PELAS CATEGORIAS</h2>
+            <div class="categories-container">
+                <div class="category-item" id="categoria-petshop">
+                    <span class="category-icon">🐶</span>
+                    <span class="category-name">Pet Shop</span>
+                </div>
+                <div class="category-item" id="categoria-dentista">
+                    <span class="category-icon">🦷</span>
+                    <span class="category-name">Dentista</span>
+                </div>
+                <div class="category-item" id="categoria-moveis">
+                    <span class="category-icon">🛋️</span>
+                    <span class="category-name">Móveis</span>
+                </div>
+                <div class="category-item" id="categoria-pediatra">
+                    <span class="category-icon">⚕️</span>
+                    <span class="category-name">Pediatra</span>
+                </div>
+                <div class="category-item" id="categoria-saude">
+                    <span class="category-icon">❤️</span>
+                    <span class="category-name">Saúde</span>
+                </div>
+                <div class="category-item" id="categoria-lavacar">
+                    <span class="category-icon">🚗</span>
+                    <span class="category-name">Lava Carro</span>
+                </div>
+                <div class="category-item" id="categoria-roupas">
+                    <span class="category-icon">👚</span>
+                    <span class="category-name">Roupas</span>
+                </div>
+                <div class="category-item" id="categoria-clinicas">
+                    <span class="category-icon">🩺</span>
+                    <span class="category-name">Clínicas</span>
+                </div>
+                <div class="category-item" id="categoria-mercado">
+                    <span class="category-icon">🛒</span>
+                    <span class="category-name">Mercado</span>
+                </div>
+                <div class="category-item" id="categoria-combustivel">
+                    <span class="category-icon">⛽</span>
+                    <span class="category-name">Combustível</span>
+                </div>
+                <div class="category-item" id="categoria-agro">
+                    <span class="category-icon">🚜</span>
+                    <span class="category-name">Agro</span>
+                </div>
+                <div class="category-item" id="categoria-medicos">
+                    <span class="category-icon">👩‍⚕️</span>
+                    <span class="category-name">Médicos</span>
+                </div>
+                <div class="category-item" id="categoria-oficina">
+                    <span class="category-icon">🛠️</span>
+                    <span class="category-name">Oficina</span>
+                </div>
+                <div class="category-item" id="categoria-roupainfantil">
+                    <span class="category-icon">🧸</span>
+                    <span class="category-name">Roupa Infantil</span>
+                </div>
+                <div class="category-item" id="categoria-computadores">
+                    <span class="category-icon">🖥️</span>
+                    <span class="category-name">Computadores</span>
+                </div>
+                <div class="category-item" id="categoria-esporte">
+                    <span class="category-icon">⚽</span>
+                    <span class="category-name">Esporte</span>
+                </div>
+                <div class="category-item" id="categoria-roupas">
+                    <span class="category-icon">👔</span>
+                    <span class="category-name">Roupas</span>
+                </div>
+                <div class="category-item" id="categoria-lojas">
+                    <span class="category-icon">🏪</span>
+                    <span class="category-name">Lojas</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="app-list hidden" id="app-list">
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar Empresas">
+            <button>🔍</button>
+        </div>
+
+        <div class="filter-sort">
+            <button class="filter-button">Filtrar</button>
+            <div class="sort-button">
+              Ordenar ▾
+            </div>
+        </div>
+
+        <div class="company-list">
+        </div>
+    </div>
+
+    <div class="app-detail hidden">
+    </div>
+       
+   
+    </main>
+
+    <script type="module" src="script.js"></script>
+    <script type="module" src="menu.js"></script>
+    <script type="module" src="categorias.js"></script>
+    <script>
+        
+    // Obtém referências para os elementos do menu e do overlay
+const menuButton = document.querySelector('.menu-button');
+const sidebar = document.querySelector('.sidebar');
+const closeSidebarButton = document.querySelector('.close-sidebar');
+const body = document.body
+
+// Adiciona event listener para abrir/fechar o menu ao clicar no ícone do menu
+menuButton.addEventListener('click', () => {
+    if (body.classList.contains('sidebar-open')) {
+        body.classList.remove('sidebar-open');
+        sidebar.classList.remove('active');
+    } else {
+        body.classList.add('sidebar-open');
+        sidebar.classList.add('active');
+    }
+});
+
+// Adiciona event listener para fechar o menu ao clicar no botão "X"
+closeSidebarButton.addEventListener('click', () => {
+    body.classList.remove('sidebar-open');
+    sidebar.classList.remove('active');
+});
+
+   
+
+</script>
+
+    <script>
+    // Seleciona todos os itens de categoria
+    const categoryItems = document.querySelectorAll('.category-item');
+
+    // Adiciona um event listener a cada item de categoria
+    categoryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Obtém o nome da categoria do atributo data-category
+            const category = item.querySelector('.category-name').textContent;
+
+            // Abre uma nova janela com a categoria filtrada (substitua 'empresas.html' pelo caminho correto para a página de empresas)
+            window.open(`empresas.html?categoria=${category}`, '_blank');
+        });
+    });
+
+    // Adicione um event listener à caixa de busca
+    const searchInput = document.querySelector('.search-bar input');
+    searchInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            // Obtém o termo de pesquisa
+            const searchTerm = searchInput.value;
+
+            // Abre uma nova janela com o termo de pesquisa (substitua 'empresas.html' pelo caminho correto para a página de empresas)
+            window.open(`empresas.html?pesquisa=${searchTerm}`, '_blank');
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Empresa - BuscAKI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo1.png" alt="Logo BuscAKI">
+           
+        </div>
+        <button class="menu-button">☰</button>
+    </header>
+
+    <div class="sidebar">
+        <button class="close-sidebar">X</button>
+        <a href="index.html">Início</a>
+        <a href="#">Sobre</a>
+        <a href="#">Contato</a>
+        <input type="text" placeholder="Buscar no Menu" class="sidebar-search">
+        <div class="sidebar-categories">
+            <h3>Categorias</h3>
+            <a href="empresas.html">Empresas</a>
+            <a href="#">Lanchonete</a>
+            <a href="#">Restaurante</a>
+            <a href="#">Combustível</a>
+            <a href="#">Vestuário</a>
+            <a href="#">PetShop</a>
+            <a href="#">Farmácia</a>
+            <a href="#">Dentista</a>
+            <a href="#">Supermercado</a>
+        </div>
+    </div>
+    <main id="empresa-detalhes">
+
+    </main>
+
+    <script src="script-detalhes.js"></script>
+    <script src="menu.js"></script>
+
+    <script>
+        
+       // Obtém referências para os elementos do menu e do overlay
+const menuButton = document.querySelector('.menu-button');
+const sidebar = document.querySelector('.sidebar');
+const closeSidebarButton = document.querySelector('.close-sidebar');
+const body = document.body
+
+// Adiciona event listener para abrir/fechar o menu ao clicar no ícone do menu
+menuButton.addEventListener('click', () => {
+    if (body.classList.contains('sidebar-open')) {
+        body.classList.remove('sidebar-open');
+        sidebar.classList.remove('active');
+    } else {
+        body.classList.add('sidebar-open');
+        sidebar.classList.add('active');
+    }
+});
+
+// Adiciona event listener para fechar o menu ao clicar no botão "X"
+closeSidebarButton.addEventListener('click', () => {
+    body.classList.remove('sidebar-open');
+    sidebar.classList.remove('active');
+});
+    </script>
+
+</body>
+</html>
