@@ -147,7 +147,22 @@ const closeMenuButton = document.querySelector('.close-menu');
 const overlay = document.querySelector('.overlay');
 const sortSelect = document.getElementById('sort-select');
 
-// Função para criar um card de empresa
+const FAVORITOS_KEY = 'favoritos';
+
+function createIcon(classNames, clickHandler) {
+    const icon = document.createElement('i');
+    icon.className = classNames;
+    if (clickHandler) icon.addEventListener('click', clickHandler);
+    return icon;
+}
+
+// Function to get favoritos from localStorage
+function getFavoritos() {
+    const favoritos = localStorage.getItem(FAVORITOS_KEY);
+    return favoritos ? JSON.parse(favoritos) : [];
+}
+
+// Function to create a company card
 function createEmpresaCard(empresa) {
     const card = document.createElement('div');
     card.classList.add('card');
@@ -156,46 +171,36 @@ function createEmpresaCard(empresa) {
         <div class="info">
             <h2 class="title-card">${empresa.nome}</h2>
             <p class="category">${empresa.categoria}</p>
-            <div class="contact">
-                <i class="fab fa-whatsapp"></i>
-                <i class="fas fa-phone"></i>
-            </div>
+            <div class="contact"></div>
             <p class="status ${empresa.status.toLowerCase().replace(/\s+/g, '-')}">${empresa.status}</p>
         </div>
         <button class="details" data-id="${empresa.id}">Mais Detalhes</button>
     `;
 
-    // Adiciona um indicador visual se a empresa é favorita
-    const favoritos = getFavoritos();
-    if (favoritos.includes(empresa.id)) {
-        const favoritoIcon = document.createElement('i');
-        favoritoIcon.classList.add('fas', 'fa-heart', 'favorito');
+    const contactDiv = card.querySelector('.contact');
+    contactDiv.appendChild(createIcon('fab fa-whatsapp', () => {
+        window.open(`https://wa.me/${empresa.whatsapp.replace(/[^\d]/g, '')}`, '_blank');
+    }));
+    contactDiv.appendChild(createIcon('fas fa-phone', () => {
+        window.location.href = `tel:${empresa.telefone}`;
+    }));
+
+    if (getFavoritos().includes(empresa.id)) {
+        const favoritoIcon = createIcon('fas fa-heart favorito');
         card.querySelector('.info').appendChild(favoritoIcon);
     }
-
-    const whatsappIcon = card.querySelector('.fa-whatsapp');
-    whatsappIcon.addEventListener('click', () => {
-        window.open(`https://wa.me/${empresa.whatsapp.replace(/[^\d]/g, '')}`, '_blank');
-    });
-
-    const phoneIcon = card.querySelector('.fa-phone');
-    phoneIcon.addEventListener('click', () => {
-        window.location.href = `tel:${empresa.telefone}`;
-    });
 
     return card;
 }
 
-// Função para renderizar os cards na tela
+// Function to render company cards
 function renderEmpresas(empresasToRender) {
     resultsContainer.innerHTML = '';
     empresasToRender.forEach(empresa => {
         resultsContainer.appendChild(createEmpresaCard(empresa));
     });
 
-    // Adiciona event listeners aos botões "Mais Detalhes"
-    const detailsButtons = document.querySelectorAll('.details');
-    detailsButtons.forEach(button => {
+    document.querySelectorAll('.details').forEach(button => {
         button.addEventListener('click', () => {
             const empresaId = button.dataset.id;
             const empresa = empresasToRender.find(e => e.id === parseInt(empresaId));
@@ -204,183 +209,58 @@ function renderEmpresas(empresasToRender) {
     });
 }
 
-// Função para filtrar empresas com base no termo de pesquisa
+// Function to filter companies based on search term
 function filterEmpresas(searchTerm) {
-    return empresas.filter(empresa => {
-        const nome = empresa.nome.toLowerCase();
-        const categoria = empresa.categoria.toLowerCase();
-        const term = searchTerm.toLowerCase();
-        return nome.includes(term) || categoria.includes(term);
-    });
+    const term = searchTerm.toLowerCase();
+    return empresas.filter(({ nome, categoria }) => 
+        nome.toLowerCase().includes(term) || categoria.toLowerCase().includes(term)
+    );
 }
 
-//função de pesquisa
+// Function to handle search
 function handleSearch() {
     const searchTerm = searchInput.value;
     const filteredEmpresas = filterEmpresas(searchTerm);
     renderEmpresas(filteredEmpresas);
 }
 
-// Função para obter a lista de favoritos do localStorage (igual à do script-detalhes.js)
-function getFavoritos() {
-    const favoritos = localStorage.getItem('favoritos');
-    return favoritos ? JSON.parse(favoritos) : [];
-}
-
-// Função para abrir a página de detalhes
+// Function to open the details page
 function openDetailsPage(empresa) {
     localStorage.setItem('empresaDetails', JSON.stringify(empresa));
     window.location.href = 'detalhes.html';
 }
 
-// Inicializa a exibição dos cards
-renderEmpresas(empresas); // Usando a variável 'empresas' importada
+// Function to handle menu visibility
+function toggleMenu() {
+    const isOpen = menu.classList.contains('open');
+    menu.classList.toggle('open', !isOpen);
+    overlay.classList.toggle('open', !isOpen);
+    menu.style.display = isOpen ? 'none' : 'block';
+}
 
-// Event Listeners
-
-//faz a pesquisa onclick
-searchIcon.addEventListener('click', handleSearch);
-//faz a pesquisa onkeyup
-searchInput.addEventListener('keyup', handleSearch);
-
-
-
-// Adiciona event listener para o menu hambúrguer
-menuIcon.addEventListener('click', () => {
-    if (menu.classList.contains('open')) {
-        menu.classList.remove('open');
-        overlay.classList.remove('open');
-        menu.style.display = 'none'; // Certifica-se de que o menu está oculto
-    } else {
-        menu.classList.add('open');
-        overlay.classList.add('open');
-        menu.style.display = 'block'; // Certifica-se de que o menu está visível
-    }
-});
-
-// Adiciona event listener para fechar o menu ao clicar no botão "X"
-closeMenuButton.addEventListener('click', () => {
-    menu.classList.remove('open');
-    overlay.classList.remove('open');
-});
-
-// Adiciona event listener para fechar o menu ao clicar fora (no overlay)
-overlay.addEventListener('click', () => {
-    menu.classList.remove('open');
-    overlay.classList.remove('open');
-});
-
-// Adiciona event listeners para a ordenação
-sortSelect.addEventListener('change', () => {
+// Function to handle sorting
+function handleSort() {
     const sortValue = sortSelect.value;
-    let sortedEmpresas = [...empresas]; // Cria uma cópia do array original
+    let sortedEmpresas = [...empresas];
     
     if (sortValue === 'a-z') {
         sortedEmpresas.sort((a, b) => a.nome.localeCompare(b.nome));
     } else if (sortValue === 'z-a') {
         sortedEmpresas.sort((a, b) => b.nome.localeCompare(a.nome));
     } else if (sortValue === 'mais-proximos') {
-        // Implementar lógica de ordenação por proximidade (precisa de geolocalização)
         alert('Ordenação por proximidade a ser implementada');
     }
 
     renderEmpresas(sortedEmpresas);
-});
-
-// Função para filtrar empresas com base no termo de pesquisa
-function filterEmpresas(searchTerm) {
-    return empresas.filter(empresa => {
-        const nome = empresa.nome.toLowerCase();
-        const categoria = empresa.categoria.toLowerCase();
-        const term = searchTerm.toLowerCase();
-        return nome.includes(term) || categoria.includes(term);
-    });
 }
 
-function filterEmpresas(searchTerm) {
-    return empresas.filter(empresa => {
-        const nome = empresa.nome.toLowerCase();
-        const categoria = empresa.categoria.toLowerCase();
-        const term = searchTerm.toLowerCase();
-        return nome.includes(term) || categoria.includes(term);
-    });
-}
-
-// Função para filtrar empresas por categoria
-function filterByCategory(category) {
-    const filteredEmpresas = empresas.filter(empresa => {
-        return empresa.categoria.toLowerCase() === category.toLowerCase();
-    });
-    renderEmpresas(filteredEmpresas);
-    showMain('app-list');
-}
-
-//função de pesquisa
-function handleSearch() {
-    const searchTerm = searchInput.value;
-    const filteredEmpresas = filterEmpresas(searchTerm);
-    renderEmpresas(filteredEmpresas);
-}
-
-// Função para obter a lista de favoritos do localStorage (igual à do script-detalhes.js)
-function getFavoritos() {
-    const favoritos = localStorage.getItem('favoritos');
-    return favoritos ? JSON.parse(favoritos) : [];
-}
-
-// Função para abrir a página de detalhes
-function openDetailsPage(empresa) {
-    localStorage.setItem('empresaDetails', JSON.stringify(empresa));
-    window.location.href = 'detalhes.html';
-}
-
-// Função para exibir a div (main) correta
-function showMain(mainId) {
-    const mains = ['app-home', 'app-list', 'app-detail'];
-    mains.forEach(id => {
-        const main = document.getElementById(id);
-        if (id === mainId) {
-            main.classList.remove('hidden');
-        } else {
-            main.classList.add('hidden');
-        }
-    });
-}
-
-//faz a pesquisa onclick
+// Initialize event listeners
 searchIcon.addEventListener('click', handleSearch);
-//faz a pesquisa onkeyup
 searchInput.addEventListener('keyup', handleSearch);
+menuIcon.addEventListener('click', toggleMenu);
+closeMenuButton.addEventListener('click', toggleMenu);
+overlay.addEventListener('click', toggleMenu);
+sortSelect.addEventListener('change', handleSort);
 
-// Adiciona event listeners para a ordenação
-sortSelect.addEventListener('change', () => {
-    const sortValue = sortSelect.value;
-    let sortedEmpresas = [...empresas]; // Cria uma cópia do array original
-    
-    if (sortValue === 'a-z') {
-        sortedEmpresas.sort((a, b) => a.nome.localeCompare(b.nome));
-    } else if (sortValue === 'z-a') {
-        sortedEmpresas.sort((a, b) => b.nome.localeCompare(a.nome));
-    } else if (sortValue === 'mais-proximos') {
-        // Implementar lógica de ordenação por proximidade (precisa de geolocalização)
-        alert('Ordenação por proximidade a ser implementada');
-    }
-
-    renderEmpresas(sortedEmpresas);
-});
-
-// Adiciona event listeners para as categorias após o carregamento do DOM
-document.addEventListener('DOMContentLoaded', () => {
-    const categoryItems = document.querySelectorAll('.category-item');
-    categoryItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const category = item.querySelector('.category-name').textContent;
-            filterByCategory(category);
-        });
-    });
-});
-// Inicializa a exibição dos cards, mas não renderiza inicialmente
-// renderEmpresas(empresas); // Removido para evitar exibir empresas na tela inicial
-
-// Mostra a tela inicial por padrão
-showMain('app-home');
+// Initialize the display of company cards
+renderEmpresas(empresas);
