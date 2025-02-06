@@ -28,7 +28,7 @@ const empresas = [
     {
         id: 3,
         nome: "Empresa 3",
-        categoria: "Restaurante",
+        categoria: "PetShop",
         descricao: "Descrição da empresa",
         telefone: "(11) 99999-9999",
         whatsapp: "(11) 99999-9999",
@@ -167,8 +167,8 @@ function createEmpresaCard(empresa) {
     const card = document.createElement('div');
     card.classList.add('card');
     card.innerHTML = `
+    <div class="info">
         <img src="${empresa.imagem}" alt="${empresa.nome}">
-        <div class="info">
             <h2 class="title-card">${empresa.nome}</h2>
             <p class="category">${empresa.categoria}</p>
             <div class="contact"></div>
@@ -254,13 +254,7 @@ function handleSort() {
     renderEmpresas(sortedEmpresas);
 }
 
-// Initialize event listeners
-searchIcon.addEventListener('click', handleSearch);
-searchInput.addEventListener('keyup', handleSearch);
-menuIcon.addEventListener('click', toggleMenu);
-closeMenuButton.addEventListener('click', toggleMenu);
-overlay.addEventListener('click', toggleMenu);
-sortSelect.addEventListener('change', handleSort);
+
 
 // Initialize the display of company cards
 renderEmpresas(empresas);
