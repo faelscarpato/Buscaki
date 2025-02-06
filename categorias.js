@@ -1,4 +1,4 @@
-import { empresas } from './empresas.js';
+
 
 function filterEmpresas(searchTerm) {
     return empresas.filter(empresa => {
