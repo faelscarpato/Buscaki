@@ -10,8 +10,8 @@
 <body>
     <header>
         <div class="logo">
-            <img src="logo1.png" alt="Logo BuscAKI">
-           
+            <a href="index.html">
+               <img src="logo.svg" alt="Logo BuscAKI"> </a>
         </div>
         <button class="menu-button">☰</button>
     </header>
@@ -56,13 +56,50 @@
             </section>
     </main>
 
-    <script src="script.js"></script>
-    <script src="menu.js"></script>
+    <nav class="bottom-nav">
+        <ul>
+          <li>
+            <a href="index.html">
+              <i class="fas fa-home"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="empresas.html">
+              <i class="fas fa-store"></i>
+              <span>Empresas</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-search"></i>
+              <span>Buscar</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-heart"></i>
+              <span>Favoritos</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
 
-    <script>
-        
-        
-    // Obtém referências para os elementos do menu e do overlay
+
+      <script type="module" src="data.js"></script>
+    <script type="module" src="script.js"></script>
+
+ 
+   
+   <script>
+       
+   // Obtém referências para os elementos do menu e do overlay
 const menuButton = document.querySelector('.menu-button');
 const sidebar = document.querySelector('.sidebar');
 const closeSidebarButton = document.querySelector('.close-sidebar');
@@ -70,38 +107,26 @@ const body = document.body
 
 // Adiciona event listener para abrir/fechar o menu ao clicar no ícone do menu
 menuButton.addEventListener('click', () => {
-    if (body.classList.contains('sidebar-open')) {
-        body.classList.remove('sidebar-open');
-        sidebar.classList.remove('active');
-    } else {
-        body.classList.add('sidebar-open');
-        sidebar.classList.add('active');
-    }
+   if (body.classList.contains('sidebar-open')) {
+       body.classList.remove('sidebar-open');
+       sidebar.classList.remove('active');
+   } else {
+       body.classList.add('sidebar-open');
+       sidebar.classList.add('active');
+   }
 });
 
 // Adiciona event listener para fechar o menu ao clicar no botão "X"
 closeSidebarButton.addEventListener('click', () => {
-    body.classList.remove('sidebar-open');
-    sidebar.classList.remove('active');
+   body.classList.remove('sidebar-open');
+   sidebar.classList.remove('active');
 });
-
    
+
+
+
     
-        // Tabs detail
-        const tabButtons = document.querySelectorAll('.tab-button');
-        const tabContents = document.querySelectorAll('.tab-content');
-    
-        tabButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const tabId = this.getAttribute('data-tab');
-    
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
-                this.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-    
+       
     </script>
 </body>
 </html>
