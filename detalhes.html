@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes da Empresa - BuscAKI</title>
+    <!-- Mapbox GL JS CSS -->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- No need for Leaflet CSS anymore, remove if present -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> -->
+    <!-- No need for Leaflet JS anymore, remove if present -->
+    <!-- <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> -->
 </head>
+
 <body>
     <header>
         <div class="logo">
-            <img src="logo1.png" alt="Logo BuscAKI">
-           
+            <a href="index.html">
+               <img src="logo.svg" alt="Logo BuscAKI"> </a>
         </div>
         <button class="menu-button">☰</button>
     </header>
@@ -41,12 +46,52 @@
 
     </main>
 
+    <nav class="bottom-nav">
+        <ul>
+          <li>
+            <a href="index.html">
+              <i class="fas fa-home"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="empresas.html">
+              <i class="fas fa-store"></i>
+              <span>Empresas</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-search"></i>
+              <span>Buscar</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-heart"></i>
+              <span>Favoritos</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.js'></script>
     <script src="script-detalhes.js"></script>
-    <script src="menu.js"></script>
 
-    <script>
-        
-       // Obtém referências para os elementos do menu e do overlay
+    <script src="script-detalhes.js"></script>
+
+    <script type="module" src="script.js"></script>
+
+   <script type="module" src="menu.js"></script>
+   <script type="module" src="categorias.js"></script>
+   <script>
+       
+   // Obtém referências para os elementos do menu e do overlay
 const menuButton = document.querySelector('.menu-button');
 const sidebar = document.querySelector('.sidebar');
 const closeSidebarButton = document.querySelector('.close-sidebar');
@@ -54,19 +99,19 @@ const body = document.body
 
 // Adiciona event listener para abrir/fechar o menu ao clicar no ícone do menu
 menuButton.addEventListener('click', () => {
-    if (body.classList.contains('sidebar-open')) {
-        body.classList.remove('sidebar-open');
-        sidebar.classList.remove('active');
-    } else {
-        body.classList.add('sidebar-open');
-        sidebar.classList.add('active');
-    }
+   if (body.classList.contains('sidebar-open')) {
+       body.classList.remove('sidebar-open');
+       sidebar.classList.remove('active');
+   } else {
+       body.classList.add('sidebar-open');
+       sidebar.classList.add('active');
+   }
 });
 
 // Adiciona event listener para fechar o menu ao clicar no botão "X"
 closeSidebarButton.addEventListener('click', () => {
-    body.classList.remove('sidebar-open');
-    sidebar.classList.remove('active');
+   body.classList.remove('sidebar-open');
+   sidebar.classList.remove('active');
 });
     </script>
 
