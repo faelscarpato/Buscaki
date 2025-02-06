@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BuscAKI</title>
     <link rel="stylesheet" href="style_index.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <header>
         <div class="logo">
-            <img src="logo1.png" alt="Logo BuscAKI">
+            <a href="index.html">
+               <img src="logo.svg" alt="Logo BuscAKI"> </a>
            
         </div>
         <button class="menu-button">☰</button>
@@ -40,8 +43,8 @@
             NÃO SABE ONDE FICA? O TELEFONE? ONDE TEM? BUSQUE AGORA E NÃO FIQUE PERDIDO!
         </div>
         <div class="search-bar">
-            <input type="text" placeholder="Empresas, Lojas, PetShop, e muito mais">
-            <button>🔍</button>
+            <input type="text" id="home-search-input" placeholder="Empresas, Lojas, PetShop, e muito mais">
+            <button id="home-search-button">🔍</button>
         </div>
         <div class="categories-grid">
             <h2>NAVEGUE PELAS CATEGORIAS</h2>
@@ -144,6 +147,64 @@
        
    
     </main>
+
+    <nav class="bottom-nav">
+        <ul>
+          <li>
+            <a href="index.html">
+              <i class="fas fa-home"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="empresas.html">
+              <i class="fas fa-store"></i>
+              <span>Empresas</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-search"></i>
+              <span>Buscar</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-heart"></i>
+              <span>Favoritos</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInputHome = document.getElementById('home-search-input');
+        const searchButtonHome = document.getElementById('home-search-button');
+
+        function handleHomeSearch() {
+            const searchTerm = searchInputHome.value;
+            if (searchTerm) {
+                window.location.href = `empresas.html?pesquisa=${encodeURIComponent(searchTerm)}`;
+            } else {
+                alert('Por favor, insira um termo de busca.');
+            }
+        }
+
+        searchButtonHome.addEventListener('click', handleHomeSearch);
+        searchInputHome.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                handleHomeSearch();
+            }
+        });
+    });
+</script>
 
     <script type="module" src="script.js"></script>
     <script type="module" src="menu.js"></script>
