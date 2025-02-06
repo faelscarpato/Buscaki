@@ -12,6 +12,9 @@ const empresa = JSON.parse(localStorage.getItem('empresaDetails'));
 // Obtém a referência para o elemento onde os detalhes da empresa serão exibidos
 const empresaDetalhes = document.getElementById('empresa-detalhes');
 
+// Chave da API do Mapbox (substitua com a sua chave real)
+const mapboxApiKey = 'pk.eyJ1Ijoic2NhcnBhdG9kZXNpZ25lciIsImEiOiJjbTZrcGZwaHIwMGtnMmtweHBmZmg2cGp4In0.TPQPgDDL6_p7Qv6iJtOCig';
+
 // ----------------------------------------------------------------------
 // Funções de Criação de Elementos da Página de Detalhes
 // ----------------------------------------------------------------------
@@ -144,17 +147,29 @@ function createTabContent(empresa) {
 // Funções de Interação com a Página
 // ----------------------------------------------------------------------
 
-// Função para configurar o mapa
+// Função para configurar o mapa (AGORA USANDO MAPBOX GL JS)
 function setupMap(empresa) {
-    const map = L.map('map').setView([-22.5054786, -47.1749529], 15); // Substitua com as coordenadas da empresa
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    if (!empresa.lat || !empresa.lng) {
+        console.warn('Coordenadas (latitude e longitude) não disponíveis para a empresa:', empresa.nome);
+        document.getElementById('map').innerHTML = '<p>Mapa não disponível devido à falta de coordenadas.</p>';
+        return;
+    }
+
+    mapboxgl.accessToken = mapboxApiKey; // Define o token de acesso do Mapbox
+
+    const map = new mapboxgl.Map({
+        container: 'map', // ID do container do mapa
+        style: 'mapbox://styles/mapbox/streets-v12', // Estilo do mapa (pode ser alterado)
+        center: [empresa.lng, empresa.lat], // [longitude, latitude]
+        zoom: 15 // Nível de zoom inicial
+    });
 
     // Adiciona um marcador no mapa
-    L.marker([-22.5054786, -47.1749529]).addTo(map) // Substitua com as coordenadas da empresa
-        .bindPopup(empresa.nome)
-        .openPopup();
+    new mapboxgl.Marker()
+        .setLngLat([empresa.lng, empresa.lat])
+        .setPopup(new mapboxgl.Popup({ offset: 25 }) // offset the popup
+            .setHTML(`<h3>${empresa.nome}</h3><p>${empresa.endereco}</p>`))
+        .addTo(map);
 }
 
 // Função para mostrar o conteúdo da aba selecionada
